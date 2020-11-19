@@ -3,17 +3,12 @@ CREATE DATABASE IF NOT EXISTS BD_ENERZEE;
 
 use BD_ENERZEE;
 
-drop table if exists 
-	Associado, Engenheiro, Consultor, Franqueado, Franquia,
-    Cliente, Pessoa_f, Pessoa_j,
-    Proposta, Contrato, Produto, Obra,
-    Unidade_geradora, Analise_viabilidade, Concessionaria;
-
 create table Associado (
 	id_associado int not null,
+    nome varchar(100) not null,
     cpf varchar(50) not null,
-    email varchar(50) not null,
-    telefone int not null,
+    email varchar(100) not null,
+    telefone varchar(20) not null,
     endereco varchar(200) not null,
     primary key (id_associado)
 );
@@ -53,8 +48,8 @@ create table Franqueado (
 create table Cliente (
 	id_cliente int not null,
     nome varchar(100) not null,
-    email varchar(50) not null,
-    telefone int not null,
+    email varchar(100) not null,
+    telefone varchar(20) not null,
     endereco varchar(200) not null,
     primary key (id_cliente)
 );
