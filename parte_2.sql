@@ -1,144 +1,130 @@
 DROP DATABASE IF EXISTS BD_ENERZEE;
 CREATE DATABASE IF NOT EXISTS BD_ENERZEE;
 
-use BD_ENERZEE;
+USE BD_ENERZEE;
 
-create table Associado (
-	id_associado int not null,
-    nome varchar(100) not null,
-    cpf varchar(50) not null,
-    email varchar(100) not null,
-    telefone varchar(20) not null,
-    endereco varchar(200) not null,
-    primary key (id_associado)
-);
+CREATE TABLE Associado (
+	id_associado INT          NOT NULL,
+	nome         VARCHAR(100) NOT NULL,
+	cpf          VARCHAR(50)  NOT NULL,
+	email        VARCHAR(100) NOT NULL,
+	telefone     VARCHAR(20)  NOT NULL,
+	endereco     VARCHAR(200) NOT NULL,
+	PRIMARY KEY (id_associado));
 
-create table Engenheiro (
-	id_engenheiro int not null,
-    salario double not null,
-    area_atuacao varchar(50) not null,
-	foreign key (id_engenheiro) references Associado (id_associado) on delete cascade,
-    primary key (id_engenheiro)
-);
+CREATE TABLE Engenheiro (
+	id_engenheiro INT         NOT NULL,
+	salario       DOUBLE      NOT NULL,
+	area_atuacao  VARCHAR(50) NOT NULL,
+	FOREIGN KEY (id_engenheiro) REFERENCES Associado (id_associado) ON DELETE CASCADE,
+	PRIMARY KEY (id_engenheiro));
 
-create table Consultor (
-	id_consultor int not null,
-    comissao double not null,
-	foreign key (id_consultor) references Associado (id_associado) on delete cascade,
-    primary key (id_consultor)
-);
+CREATE TABLE Consultor (
+	id_consultor INT    NOT NULL,
+	comissao     DOUBLE NOT NULL,
+	FOREIGN KEY (id_consultor) REFERENCES Associado (id_associado) ON DELETE CASCADE,
+	PRIMARY KEY (id_consultor));
 
-create table Franquia (
-	id_franquia int not null,
-    cnpj varchar(50) not null,
-    razao_social varchar(50) not null,
-    nome_fantasia varchar(50) not null,
-    primary key (id_franquia)
-);
+CREATE TABLE Franquia (
+	id_franquia   INT         NOT NULL,
+	cnpj          VARCHAR(50) NOT NULL,
+	razao_social  VARCHAR(50) NOT NULL,
+	nome_fantasia VARCHAR(50) NOT NULL,
+	PRIMARY KEY (id_franquia));
 
-create table Franqueado (
-	id_franqueado int not null,
-    id_franquia int not null,
-    cargo varchar(50) not null,
-	foreign key (id_franqueado) references Associado (id_associado) on delete cascade,
-	foreign key (id_franquia) references Franquia (id_franquia) on delete cascade,
-    primary key (id_franqueado)
-);
+CREATE TABLE Franqueado (
+	id_franqueado INT         NOT NULL,
+	id_franquia   INT         NOT NULL,
+	cargo         VARCHAR(50) NOT NULL,
+	FOREIGN KEY (id_franqueado) REFERENCES Associado (id_associado) ON DELETE CASCADE,
+	FOREIGN KEY (id_franquia) REFERENCES Franquia (id_franquia) ON DELETE CASCADE,
+	PRIMARY KEY (id_franqueado));
 
-create table Cliente (
-	id_cliente int not null,
-    nome varchar(100) not null,
-    email varchar(100) not null,
-    telefone varchar(20) not null,
-    endereco varchar(200) not null,
-    primary key (id_cliente)
-);
+CREATE TABLE Cliente (
+	id_cliente INT          NOT NULL,
+	nome       VARCHAR(100) NOT NULL,
+	email      VARCHAR(100) NOT NULL,
+	telefone   VARCHAR(20)  NOT NULL,
+	endereco   VARCHAR(200) NOT NULL,
+	PRIMARY KEY (id_cliente));
 
-create table Pessoa_f (
-	id_cliente int not null,
-    cpf varchar(50) not null,
-    foreign key (id_cliente) references Cliente (id_cliente) on delete cascade,
-    primary key (id_cliente)
-);
+CREATE TABLE Pessoa_f (
+	id_cliente INT         NOT NULL,
+	cpf        VARCHAR(50) NOT NULL,
+	FOREIGN KEY (id_cliente) REFERENCES Cliente (id_cliente) ON DELETE CASCADE,
+	PRIMARY KEY (id_cliente));
 
-create table Pessoa_j (
-	id_cliente int not null,
-    cnpj varchar(50) not null,
-    foreign key (id_cliente) references Cliente (id_cliente) on delete cascade,
-    primary key (id_cliente)
-);
+CREATE TABLE Pessoa_j (
+	id_cliente INT         NOT NULL,
+	cnpj       VARCHAR(50) NOT NULL,
+	FOREIGN KEY (id_cliente) REFERENCES Cliente (id_cliente) ON DELETE CASCADE,
+	PRIMARY KEY (id_cliente));
 
-create table Produto (
-	id_produto int not null,
-    nome_prod varchar(100) not null,
-	modelo varchar(200) not null,
-    potencia double not null,
-    preco double not null,
-    primary key (id_produto)
-);
+CREATE TABLE Produto (
+	id_produto INT          NOT NULL,
+	nome_prod  VARCHAR(100) NOT NULL,
+	modelo     VARCHAR(200) NOT NULL,
+	potencia   DOUBLE       NOT NULL,
+	preco      DOUBLE       NOT NULL,
+	PRIMARY KEY (id_produto));
 
-create table Concessionaria(
-	id_concessionaria int not null,
-    razao_social varchar(50) not null,
-    cnpj varchar(50) not null,
-    estado varchar(20) not null,
-    primary key (id_concessionaria)
-);
+CREATE TABLE Concessionaria (
+	id_concessionaria INT         NOT NULL,
+	razao_social      VARCHAR(50) NOT NULL,
+	cnpj              VARCHAR(50) NOT NULL,
+	estado            VARCHAR(20) NOT NULL,
+	PRIMARY KEY (id_concessionaria));
 
-create table Proposta (
-	id_proposta int not null,
-    id_associado int not null,
-    id_cliente int not null,
-    id_concessionaria int not null,
-    id_engenheiro int not null,
-	valor_proposta double not null,
-    geracao_desejada double not null,
-    id_unidade_geradora int not null,
-    endereco_instalacao varchar(100) not null,
-    consumo_medio double not null,
-    tarifa double not null,
-    data_analise date not null,
-    resultado boolean not null,
-    geracao_estimada double not null,
-	foreign key (id_associado) references Associado (id_associado) on delete cascade,
-	foreign key (id_cliente) references Cliente (id_cliente) on delete cascade,
-	foreign key (id_concessionaria) references Concessionaria (id_concessionaria) on delete cascade,
-	foreign key (id_engenheiro) references Engenheiro (id_engenheiro) on delete cascade,
-    primary key (id_proposta, id_associado, id_cliente)
-);
+CREATE TABLE Obra (
+	id_obra             INT  NOT NULL,
+	data_inicial        DATE NOT NULL,
+	prazo_estimado_dias INT  NOT NULL,
+	horas_trabalhadas   INT  NOT NULL,
+	PRIMARY KEY (id_obra));
 
-create table Proposta_possui_Produto (
-	id_proposta int not null,
-    id_produto int not null,
-    qntd int not null,
-    foreign key (id_proposta) references Proposta (id_proposta) on delete cascade,
-    foreign key (id_produto) references Produto (id_produto) on delete cascade,
-    primary key (id_proposta, id_produto)
-);
+CREATE TABLE Engenheiro_coordena_obra (
+	id_engenheiro INT NOT NULL,
+	id_obra       INT NOT NULL,
+	FOREIGN KEY (id_engenheiro) REFERENCES Engenheiro (id_engenheiro) ON DELETE CASCADE,
+	FOREIGN KEY (id_obra) REFERENCES Obra (id_obra) ON DELETE CASCADE,
+	PRIMARY KEY (id_engenheiro, id_obra));
 
-create table Obra (
-	data_inicial date not null,
-    id_proposta int not null,
-    prazo_estimado_dias int not null,
-    horas_trabalhadas int not null,
-    foreign key (id_proposta) references Proposta (id_proposta) on delete cascade,
-    primary key (data_inicial, id_proposta)
-);
+CREATE TABLE Proposta (
+	id_proposta         INT          NOT NULL,
+	id_associado        INT          NOT NULL,
+	id_cliente          INT          NOT NULL,
+	id_concessionaria   INT          NOT NULL,
+	id_engenheiro       INT          NOT NULL,
+	id_obra             INT          NOT NULL,
+	valor_proposta      DOUBLE       NOT NULL,
+	geracao_desejada    DOUBLE       NOT NULL,
+	id_unidade_geradora INT          NOT NULL,
+	endereco_instalacao VARCHAR(100) NOT NULL,
+	consumo_medio       DOUBLE       NOT NULL,
+	tarifa              DOUBLE       NOT NULL,
+	data_analise        DATE         NOT NULL,
+	resultado           BOOLEAN      NOT NULL,
+	geracao_estimada    DOUBLE       NOT NULL,
+	FOREIGN KEY (id_associado) REFERENCES Associado (id_associado) ON DELETE CASCADE,
+	FOREIGN KEY (id_cliente) REFERENCES Cliente (id_cliente) ON DELETE CASCADE,
+	FOREIGN KEY (id_concessionaria) REFERENCES Concessionaria (id_concessionaria) ON DELETE CASCADE,
+	FOREIGN KEY (id_engenheiro) REFERENCES Engenheiro (id_engenheiro) ON DELETE CASCADE,
+	FOREIGN KEY (id_obra) REFERENCES Obra (id_obra) ON DELETE CASCADE,
+	PRIMARY KEY (id_proposta, id_associado, id_cliente));
 
-create table Engenheiro_coordena_Obra (
-	id_engenheiro int not null,
-    data_inicial date not null,
-    foreign key (id_engenheiro) references Engenheiro (id_engenheiro) on delete cascade,
-    foreign key (data_inicial) references Obra (data_inicial) on delete cascade,
-    primary key (id_engenheiro, data_inicial)
-);
+CREATE TABLE Proposta_possui_produto (
+	id_proposta INT NOT NULL,
+	id_produto  INT NOT NULL,
+	qntd        INT NOT NULL,
+	FOREIGN KEY (id_proposta) REFERENCES Proposta (id_proposta) ON DELETE CASCADE,
+	FOREIGN KEY (id_produto) REFERENCES Produto (id_produto) ON DELETE CASCADE,
+	PRIMARY KEY (id_proposta, id_produto));
 
-create table Contrato (
-	num_contrato int not null,
-    id_proposta int not null,
-    nota_fisca varchar(250),
-    valor_total double not null,
-    data_assinatura date not null,
-    foreign key (id_proposta) references Proposta (id_proposta) on delete cascade,
-	primary key (num_contrato, id_proposta)
-);
+CREATE TABLE Contrato (
+	num_contrato    INT    NOT NULL,
+	id_proposta     INT    NOT NULL,
+	nota_fisca      VARCHAR(250),
+	valor_total     DOUBLE NOT NULL,
+	data_assinatura DATE   NOT NULL,
+	FOREIGN KEY (id_proposta) REFERENCES Proposta (id_proposta) ON DELETE CASCADE,
+	PRIMARY KEY (num_contrato, id_proposta));
